@@ -1,9 +1,9 @@
 #!/bin/bash
 
 swagger2markup=/home/swagger2markup.jar
-fyamls=/opt
+fyamls=/opt/src
 linkcss=false
-out=/opt/_out
+out=/opt/docs_output
 
 while getopts ":i:t" arg; do
   case ${arg} in
@@ -14,7 +14,8 @@ done
 
 function convert {
   local fyaml=${1}
-  local _opt=${fyaml#/opt/}
+  local _opt=${fyaml#/opt/src/}
+  local _opt=${_opt#/opt/}
   local obj=${out}/${_opt%.*}
   local fadoc=${obj}.adoc
   local fhtml=${obj}.html

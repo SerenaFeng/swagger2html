@@ -1,0 +1,84 @@
+swagger: '2.0'
+info:
+  version: 0.0.0
+  title: Markdown 
+  description: |
+    # Heading
+
+    Text attributes _italic_, *italic*, __bold__, **bold**, `monospace`.
+
+    Horizontal rule:
+
+    ---
+
+    Bullet list:
+
+      * apples
+      * oranges
+      * pears
+
+    Numbered list:
+
+      1. apples
+      2. oranges
+      3. pears
+
+    A [link](http://example.com).
+
+    An image:
+    ![Swagger logo](https://raw.githubusercontent.com/swagger-api/swagger-ui/master/dist/favicon-32x32.png)
+
+    Code block:
+
+    ```
+    {
+      "message": "Hello, world!"
+    }
+    ```
+
+    Tables:
+
+    | Column1 | Collumn2 |
+    | ------- | -------- |
+    | cell1   | cell2    |
+paths:
+  /<uid>:
+    get:
+      responses:
+        200:
+          description: OK
+      parameters:
+        - $ref: '#/parameters/uid_path'
+        - $ref: '#/parameters/enum_query'
+    patch:
+      responses:
+        200:
+          description: OK
+      parameters:
+        - $ref: '#/parameters/uid_path'
+        - $ref: '#/parameters/value_body'
+
+parameters:
+  uid_path:
+    in: path
+    name: uid
+    required: true
+    type: string
+    example: xxxxxx-ddddd-eeeeeee
+    description: it is a user id in the uuid schema
+  enum_query:
+    in: query
+    name: status
+    required: false
+    type: string
+    enum: [available, pending, sold]
+    description: enum test
+  value_body:
+    in: body
+    name: value
+    required: true
+    type: integer
+    default: 20
+    minimum: 1
+    maxmum: 100
+    description: the value of the user, 1~100
