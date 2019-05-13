@@ -12,6 +12,19 @@ while getopts ":i:t" arg; do
   esac
 done
 
+function _images_dir {
+  local _opt=${1#/opt/src/}
+  local _opt=${_opt#/opt/}
+  echo $(dirname ${out}/${_opt})
+}
+
+function _copy_images {
+  local odir=$(_images_dir ${1})
+  mkdir -p ${odir} || true
+  echo "images ${1} exist, copy to ${odir}"
+  cp -fr ${1} ${odir} || true
+}
+
 function convert {
   local fyaml=${1}
   local _opt=${fyaml#/opt/src/}
@@ -44,18 +57,30 @@ function convert {
 
 function iterate_over_dir {
   [[ -f ${1} ]] && {
-    [[ ${1} =~ yaml$|yml$ ]] && convert ${1}
+    [[ ${1} =~ yaml$|yml$ ]] && {
+      convert ${1}
+      images=$(dirname ${1})/images
+      [[ -d ${images} ]] && {
+        echo "images ${images} exist, copy to ${out}"
+        cp -fr ${images} ${out}
+      }
+    }
     return
   }
 
   for file in ${1%/}/*; do
     [[ -d ${file} ]] && {
-      iterate_over_dir ${file} || true
+      [[ ${file} =~ images$ ]] && {
+        _copy_images ${file}
+      } || {
+        iterate_over_dir ${file} || true
+      }
     } || {
-      [[ ${file} =~ yaml$|yml$ ]] && convert ${file}
+      [[ ${file} =~ .yaml$|.yml$ ]] && convert ${file}
     }
+
   done
+
 }
 
 iterate_over_dir ${fyamls}
-

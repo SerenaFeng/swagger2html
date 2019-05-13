@@ -13,5 +13,5 @@ RUN chmod +x ./convert.sh
 
 ENV JAVA_OPTS="-Dfile.encoding=UTF-8 -Dsun.jnu.encoding=UTF-8"
 
-ENTRYPOINT ["./convert.sh"]
+CMD ["./convert.sh"]
 
