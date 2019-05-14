@@ -1,7 +1,8 @@
 # swagger2html
 
 Convert swagger Spec files to html files, ${srcpath}, where the swagger spec
-file(s) is/are located, the out is under ${srcpath}/docs_output
+file(s) is/are located, the out is under ${srcpath}/docs_output. Reference
+images is/are required to be put under '.*/images$' directory.
 
 To build docker image:
 
